@@ -311,28 +311,28 @@ class _PracticePageState extends State<PracticePage> {
     try {
       final numberStr = number.toString();
       // 方法1：逐位读出中文数字
-      final chineseNumber = _convertToChineseNumber(numberStr);
-      await _flutterTts.speak(chineseNumber);
+      // final chineseNumber = _convertToChineseNumber(numberStr);
+      // await _flutterTts.speak(chineseNumber);
       
       // 如果上面的方法不工作，可以尝试直接读数字让TTS引擎处理
-      // await _flutterTts.speak(numberStr);
+      await _flutterTts.speak(numberStr);
     } catch (e) {
       debugPrint('语音播报失败: $e');
     }
   }
 
-  String _convertToChineseNumber(String number) {
-    // 将数字逐位转换为中文并用空格分隔，帮助TTS正确发音
-    const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
-    List<String> result = [];
+  // String _convertToChineseNumber(String number) {
+  //   // 将数字逐位转换为中文并用空格分隔，帮助TTS正确发音
+  //   const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+  //   List<String> result = [];
     
-    for (int i = 0; i < number.length; i++) {
-      result.add(digits[int.parse(number[i])]);
-    }
+  //   for (int i = 0; i < number.length; i++) {
+  //     result.add(digits[int.parse(number[i])]);
+  //   }
     
-    // 用逗号分隔每个数字，让TTS有停顿
-    return result.join('');
-  }
+  //   // 用逗号分隔每个数字，让TTS有停顿
+  //   return result.join('');
+  // }
 
   @override
   void dispose() {
@@ -410,14 +410,55 @@ class _PracticePageState extends State<PracticePage> {
 }
 
 // 答案页 - 显示总和
-class AnswerPage extends StatelessWidget {
+class AnswerPage extends StatefulWidget {
   final List<int> numbers;
 
   const AnswerPage({super.key, required this.numbers});
 
   @override
+  State<AnswerPage> createState() => _AnswerPageState();
+}
+
+class _AnswerPageState extends State<AnswerPage> {
+  final FlutterTts _flutterTts = FlutterTts();
+
+  @override
+  void initState() {
+    super.initState();
+    _initTtsAndSpeak();
+  }
+
+  Future<void> _initTtsAndSpeak() async {
+    try {
+      await _flutterTts.setLanguage("zh-CN");
+      await _flutterTts.setSpeechRate(0.5);
+      await _flutterTts.setVolume(1.0);
+      await _flutterTts.setPitch(1.0);
+      
+      // 计算总和
+      final sum = widget.numbers.reduce((a, b) => a + b);
+      
+      // 播报结果
+      await Future.delayed(const Duration(milliseconds: 500));
+      await _flutterTts.speak("综合为，$sum");
+    } catch (e) {
+      debugPrint('语音播报失败: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    try {
+      _flutterTts.stop();
+    } catch (e) {
+      debugPrint('停止TTS失败: $e');
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final sum = numbers.reduce((a, b) => a + b);
+    final sum = widget.numbers.reduce((a, b) => a + b);
 
     return Scaffold(
       appBar: AppBar(
@@ -437,7 +478,7 @@ class AnswerPage extends StatelessWidget {
               const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
-                  itemCount: numbers.length,
+                  itemCount: widget.numbers.length,
                   itemBuilder: (context, index) {
                     return Card(
                       margin: const EdgeInsets.symmetric(
@@ -449,7 +490,7 @@ class AnswerPage extends StatelessWidget {
                           child: Text('${index + 1}'),
                         ),
                         title: Text(
-                          numbers[index].toString(),
+                          widget.numbers[index].toString(),
                           style: const TextStyle(fontSize: 24),
                         ),
                       ),
