@@ -440,7 +440,7 @@ class _AnswerPageState extends State<AnswerPage> {
       
       // 播报结果
       await Future.delayed(const Duration(milliseconds: 500));
-      await _flutterTts.speak("综合为，$sum");
+      await _flutterTts.speak("总和为，$sum");
     } catch (e) {
       debugPrint('语音播报失败: $e');
     }
