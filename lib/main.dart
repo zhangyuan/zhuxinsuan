@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('珠心算练习'),
+        title: const Text('珠心算'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
@@ -114,7 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
               TextFormField(
                 controller: _digitsController,
                 decoration: const InputDecoration(
-                  labelText: '位数 (X)',
+                  labelText: '位数',
                   hintText: '请输入数字的位数',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.looks_one),
@@ -136,7 +136,7 @@ class _SettingsPageState extends State<SettingsPage> {
               TextFormField(
                 controller: _countController,
                 decoration: const InputDecoration(
-                  labelText: '笔数 (Y)',
+                  labelText: '笔数',
                   hintText: '请输入数字的笔数',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.format_list_numbered),
@@ -158,7 +158,7 @@ class _SettingsPageState extends State<SettingsPage> {
               TextFormField(
                 controller: _intervalController,
                 decoration: const InputDecoration(
-                  labelText: '间隔时间 (Z秒)',
+                  labelText: '间隔时间 (秒)',
                   hintText: '请输入每个数字停留的秒数',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.timer),
@@ -331,7 +331,7 @@ class _PracticePageState extends State<PracticePage> {
     }
     
     // 用逗号分隔每个数字，让TTS有停顿
-    return result.join('，');
+    return result.join('');
   }
 
   @override
@@ -431,7 +431,7 @@ class AnswerPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                '所有数字：',
+                '所有数字',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
@@ -460,7 +460,7 @@ class AnswerPage extends StatelessWidget {
               const Divider(thickness: 2),
               const SizedBox(height: 10),
               const Text(
-                '总和：',
+                '总和',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
