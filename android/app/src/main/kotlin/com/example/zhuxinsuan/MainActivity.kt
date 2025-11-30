@@ -1,4 +1,4 @@
-package com.example.zhuxinsuan
+package io.github.zhangyuan.zhuxinsuan
 
 import io.flutter.embedding.android.FlutterActivity
 
